@@ -1,0 +1,86 @@
+
+import { createChart, ColorType } from 'lightweight-charts';
+import React, { useEffect, useRef } from 'react';
+let socket = new WebSocket('ws://localhost:8080');
+
+export const ChartComponent = props => {
+    const {
+        colors: {
+            backgroundColor = 'white',
+            lineColor1 = '#2962FF',
+            lineColor2 = '#32a852',
+            lineColor3 = '#32a89c',
+            lineColor4 = '#a8325d',
+            lineColor5 = '#9aa832',
+            lineWidth = 1,
+            textColor = 'black',
+            areaTopColor = '#2962FF',
+            areaBottomColor = 'rgba(41, 98, 255, 0.28)',
+        } = {},
+    } = props;
+
+    const chartContainerRef = useRef();
+
+    useEffect(
+        () => {
+            const handleResize = () => {
+                chart.applyOptions({ width: chartContainerRef.current.width });
+            };
+
+            const chart = createChart(chartContainerRef.current, {
+                layout: {
+                    background: { type: ColorType.Solid, color: backgroundColor },
+                    textColor,
+                },
+                width: chartContainerRef.current.width,
+                height: 800,
+            });
+            chart.timeScale().fitContent();
+
+            const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350' });
+            newSeries.setData([]);
+            
+            const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth });      
+            newSeries1.setData([]);
+            const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth });      
+            newSeries2.setData([]);
+            const newSeries3 = chart.addLineSeries({ color: lineColor3, lineWidth });      
+            newSeries3.setData([]);
+            const newSeries4 = chart.addLineSeries({ color: lineColor4, lineWidth });      
+            newSeries4.setData([]);
+            const newSeries5 = chart.addLineSeries({ color: lineColor5, lineWidth });      
+            newSeries5.setData([]);
+            socket.close()
+            socket = new WebSocket('ws://localhost:8080');
+            socket.addEventListener('message', (event) => {
+                let data = JSON.parse(event.data) 
+                newSeries.update(data.candle)
+                newSeries1.update(data?.line1)
+                newSeries2.update(data?.line2)
+                newSeries3.update(data?.line3)
+                newSeries4.update(data?.line4)
+                newSeries5.update(data?.line5)
+                if(data?.markers){
+                    newSeries.setMarkers(data?.markers)
+                }
+            })
+
+            window.addEventListener('resize', handleResize);
+
+            return () => {
+                window.removeEventListener('resize', handleResize);
+
+                chart.remove();
+            };
+        },
+        [backgroundColor, textColor, areaTopColor, areaBottomColor]
+    );
+    
+    return (
+        <div
+            ref={chartContainerRef}
+        />
+    );
+};
+
+
