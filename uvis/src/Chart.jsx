@@ -13,7 +13,7 @@ export const ChartComponent = props => {
             lineColor4 = '#a8325d',
             lineColor5 = '#9aa832',
             lineWidth = 1,
-            textColor = 'black',
+            textColor = 'white',
             areaTopColor = '#2962FF',
             areaBottomColor = 'rgba(41, 98, 255, 0.28)',
         } = {},
@@ -40,10 +40,10 @@ export const ChartComponent = props => {
                 },
                 grid: {
                     vertLines: {
-                        color: '#444444',      // Custom color for vertical grid lines
+                        color: '#4444445e',      // Custom color for vertical grid lines
                     },
                     horzLines: {
-                        color: '#444444',      // Custom color for horizontal grid lines
+                        color: '#4444445e',      // Custom color for horizontal grid lines
                     },
                 },
                 crosshair: {
