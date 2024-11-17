@@ -6,7 +6,7 @@ let socket = new WebSocket('ws://localhost:8080');
 export const ChartComponent = props => {
     const {
         colors: {
-            backgroundColor = 'black',
+            backgroundColor = '#222222',
             lineColor1 = '#2962FF',
             lineColor2 = '#32a852',
             lineColor3 = '#32a89c',
@@ -40,10 +40,10 @@ export const ChartComponent = props => {
                 },
                 grid: {
                     vertLines: {
-                        color: '#b8b8b8',      // Custom color for vertical grid lines
+                        color: '#444444',      // Custom color for vertical grid lines
                     },
                     horzLines: {
-                        color: '#b8b8b8',      // Custom color for horizontal grid lines
+                        color: '#444444',      // Custom color for horizontal grid lines
                     },
                 },
             });
