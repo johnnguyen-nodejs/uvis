@@ -6,7 +6,7 @@ let socket = new WebSocket('ws://localhost:8080');
 export const ChartComponent = props => {
     const {
         colors: {
-            backgroundColor = 'white',
+            backgroundColor = 'black',
             lineColor1 = '#2962FF',
             lineColor2 = '#32a852',
             lineColor3 = '#32a89c',
@@ -34,6 +34,10 @@ export const ChartComponent = props => {
                 },
                 width: chartContainerRef.current.width,
                 height: 800,
+                timeScale: {
+                    timeVisible: true,        // Show time on the axis
+                    secondsVisible: true,     // Include seconds in the time axis
+                },
             });
             chart.timeScale().fitContent();
 
