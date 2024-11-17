@@ -40,10 +40,10 @@ export const ChartComponent = props => {
                 },
                 grid: {
                     vertLines: {
-                        color: 'rgba(0,0,0,0.2)',      // Custom color for vertical grid lines
+                        color: '#b8b8b8',      // Custom color for vertical grid lines
                     },
                     horzLines: {
-                        color: 'rgba(0,0,0,0.2)',      // Custom color for horizontal grid lines
+                        color: '#b8b8b8',      // Custom color for horizontal grid lines
                     },
                 },
             });
