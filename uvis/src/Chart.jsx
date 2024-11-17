@@ -105,6 +105,7 @@ export const ChartComponent = props => {
     
     return (
         <div
+            style={{ height: "100vh"}}
             ref={chartContainerRef}
         />
     );
