@@ -54,12 +54,24 @@ export const ChartComponent = props => {
             socket = new WebSocket('ws://localhost:8080');
             socket.addEventListener('message', (event) => {
                 let data = JSON.parse(event.data) 
-                newSeries.update(data.candle)
-                newSeries1.update(data?.line1)
-                newSeries2.update(data?.line2)
-                newSeries3.update(data?.line3)
-                newSeries4.update(data?.line4)
-                newSeries5.update(data?.line5)
+                if(data?.candle){
+                    newSeries.update(data.candle)
+                }
+                if(data?.line1){
+                    newSeries1.update(data?.line1)
+                }
+                if(data?.line2){
+                    newSeries2.update(data?.line2)
+                }
+                if(data?.line3){
+                    newSeries3.update(data?.line3)
+                }
+                if(data?.line4){
+                    newSeries4.update(data?.line4)
+                }
+                if(data?.line5){
+                    newSeries5.update(data?.line5)
+                }
                 if(data?.markers){
                     newSeries.setMarkers(data?.markers)
                 }
