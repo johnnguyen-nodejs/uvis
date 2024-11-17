@@ -19,7 +19,7 @@ function App() {
   return (
     <div style={{ width: "100wh"}}>
       <ChartComponent data={initialData} data1={initialData1}></ChartComponent>
-      <BasicLineChart />
+      {/* <BasicLineChart /> */}
     </div>
   )
 }

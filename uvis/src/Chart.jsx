@@ -38,6 +38,14 @@ export const ChartComponent = props => {
                     timeVisible: true,        // Show time on the axis
                     secondsVisible: true,     // Include seconds in the time axis
                 },
+                grid: {
+                    vertLines: {
+                        color: 'rgba(0,0,0,0.2)',      // Custom color for vertical grid lines
+                    },
+                    horzLines: {
+                        color: 'rgba(0,0,0,0.2)',      // Custom color for horizontal grid lines
+                    },
+                },
             });
             chart.timeScale().fitContent();
 
