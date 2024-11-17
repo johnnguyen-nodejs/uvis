@@ -46,6 +46,9 @@ export const ChartComponent = props => {
                         color: '#444444',      // Custom color for horizontal grid lines
                     },
                 },
+                crosshair: {
+                    mode: 0,
+                }
             });
             chart.timeScale().fitContent();
 
