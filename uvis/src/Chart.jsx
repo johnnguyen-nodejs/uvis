@@ -49,18 +49,18 @@ export const ChartComponent = props => {
             });
             chart.timeScale().fitContent();
 
-            const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350' });
+            const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350', priceLineVisible: false });
             newSeries.setData([]);
             
-            const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth });      
+            const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
             newSeries1.setData([]);
-            const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth });      
+            const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth, priceLineVisible: false });      
             newSeries2.setData([]);
-            const newSeries3 = chart.addLineSeries({ color: lineColor3, lineWidth });      
+            const newSeries3 = chart.addLineSeries({ color: lineColor3, lineWidth, priceLineVisible: false });      
             newSeries3.setData([]);
-            const newSeries4 = chart.addLineSeries({ color: lineColor4, lineWidth });      
+            const newSeries4 = chart.addLineSeries({ color: lineColor4, lineWidth, priceLineVisible: false });      
             newSeries4.setData([]);
-            const newSeries5 = chart.addLineSeries({ color: lineColor5, lineWidth });      
+            const newSeries5 = chart.addLineSeries({ color: lineColor5, lineWidth, priceLineVisible: false });      
             newSeries5.setData([]);
             socket.close()
             socket = new WebSocket('ws://localhost:8080');
