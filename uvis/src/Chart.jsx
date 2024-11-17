@@ -24,7 +24,7 @@ export const ChartComponent = props => {
     useEffect(
         () => {
             const handleResize = () => {
-                chart.applyOptions({ width: chartContainerRef.current.width });
+                chart.applyOptions({ width: chartContainerRef.current.width, height: chartContainerRef.current.height});
             };
 
             const chart = createChart(chartContainerRef.current, {
@@ -33,7 +33,7 @@ export const ChartComponent = props => {
                     textColor,
                 },
                 width: chartContainerRef.current.width,
-                height: 800,
+                height: chartContainerRef.current.height,
                 timeScale: {
                     timeVisible: true,        // Show time on the axis
                     secondsVisible: true,     // Include seconds in the time axis
