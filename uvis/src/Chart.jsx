@@ -24,7 +24,7 @@ export const ChartComponent = props => {
     useEffect(
         () => {
             const handleResize = () => {
-                chart.applyOptions({ width: chartContainerRef.current.width});
+                chart.applyOptions({ width: chartContainerRef.current.width, minBarSpacing: 0.5,});
             };
 
             const chart = createChart(chartContainerRef.current, {
@@ -54,17 +54,34 @@ export const ChartComponent = props => {
 
             const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350', priceLineVisible: false });
             newSeries.setData([]);
-            
-            const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
-            newSeries1.setData([]);
-            const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth, priceLineVisible: false });      
-            newSeries2.setData([]);
-            const newSeries3 = chart.addLineSeries({ color: lineColor3, lineWidth, priceLineVisible: false });      
-            newSeries3.setData([]);
-            const newSeries4 = chart.addLineSeries({ color: lineColor4, lineWidth, priceLineVisible: false });      
-            newSeries4.setData([]);
-            const newSeries5 = chart.addLineSeries({ color: lineColor5, lineWidth, priceLineVisible: false });      
-            newSeries5.setData([]);
+            const volumeSeries = chart.addHistogramSeries({
+                color: '#26a69a',
+                priceFormat: {
+                    type: 'volume',
+                },
+                priceScaleId: '', // set as an overlay by setting a blank priceScaleId
+                // set the positioning of the volume series
+                scaleMargins: {
+                    top: 0.7, // highest point of the series will be 70% away from the top
+                    bottom: 0,
+                },
+            });
+            volumeSeries.priceScale().applyOptions({
+                scaleMargins: {
+                    top: 0.7, // highest point of the series will be 70% away from the top
+                    bottom: 0,
+                },
+            });
+            // const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
+            // newSeries1.setData([]);
+            // const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth, priceLineVisible: false });      
+            // newSeries2.setData([]);
+            // const newSeries3 = chart.addLineSeries({ color: lineColor3, lineWidth, priceLineVisible: false });      
+            // newSeries3.setData([]);
+            // const newSeries4 = chart.addLineSeries({ color: lineColor4, lineWidth, priceLineVisible: false });      
+            // newSeries4.setData([]);
+            // const newSeries5 = chart.addLineSeries({ color: lineColor5, lineWidth, priceLineVisible: false });      
+            // newSeries5.setData([]);
             socket.close()
             socket = new WebSocket('ws://localhost:8080');
             socket.addEventListener('message', (event) => {
@@ -72,20 +89,14 @@ export const ChartComponent = props => {
                 if(data?.candle){
                     newSeries.update(data.candle)
                 }
-                if(data?.line1){
-                    newSeries1.update(data?.line1)
+                if(data?.volume){
+                    volumeSeries.update(data.volume)
                 }
-                if(data?.line2){
-                    newSeries2.update(data?.line2)
-                }
-                if(data?.line3){
-                    newSeries3.update(data?.line3)
-                }
-                if(data?.line4){
-                    newSeries4.update(data?.line4)
-                }
-                if(data?.line5){
-                    newSeries5.update(data?.line5)
+                if(data?.line){
+                    for(let i = 0; i < data?.line; i++){
+                        let newSeriesLine = chart.addLineSeries({ color: data?.line[i].color, lineWidth, priceLineVisible: false });      
+                        newSeriesLine.setData(data?.line[i].data);
+                    }
                 }
                 if(data?.markers){
                     newSeries.setMarkers(data?.markers)
