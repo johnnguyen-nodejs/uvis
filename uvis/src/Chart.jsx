@@ -53,7 +53,6 @@ export const ChartComponent = props => {
             chart.timeScale().fitContent();
 
             const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350', priceLineVisible: false });
-            newSeries.setData([]);
             const volumeSeries = chart.addHistogramSeries({
                 color: '#26a69a',
                 priceFormat: {
@@ -72,7 +71,6 @@ export const ChartComponent = props => {
                     bottom: 0,
                 },
             });
-            volumeSeries.setData([]);
             // const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
             // newSeries1.setData([]);
             // const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth, priceLineVisible: false });      
@@ -88,10 +86,10 @@ export const ChartComponent = props => {
             socket.addEventListener('message', (event) => {
                 let data = JSON.parse(event.data) 
                 if(data?.candle){
-                    newSeries.update(data.candle)
+                    newSeries.setData(data.candle)
                 }
                 if(data?.volume){
-                    volumeSeries.update(data.volume)
+                    volumeSeries.setData(data.volume);
                 }
                 if(data?.line){
                     for(let i = 0; i < data?.line; i++){
