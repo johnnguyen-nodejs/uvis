@@ -101,7 +101,7 @@ export const ChartComponent = props => {
                     newSeries.setData(data.candle)
                 }
                 if(data?.line1){
-                    newSeries.update(data?.line1)
+                    newSeries1.update(data?.line1)
                 }
                 if(data?.volume){
                     volumeSeries.setData(data.volume);
