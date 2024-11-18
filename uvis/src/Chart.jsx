@@ -61,15 +61,27 @@ export const ChartComponent = props => {
                 priceScaleId: '', // set as an overlay by setting a blank priceScaleId
                 // set the positioning of the volume series
                 scaleMargins: {
-                    top: 0.7, // highest point of the series will be 70% away from the top
+                    top: 0.3, // highest point of the series will be 70% away from the top
                     bottom: 0,
                 },
             });
             volumeSeries.priceScale().applyOptions({
                 scaleMargins: {
-                    top: 0.7, // highest point of the series will be 70% away from the top
+                    top: 0.3, // highest point of the series will be 70% away from the top
                     bottom: 0,
                 },
+            });
+            chart.subscribeCrosshairMove((param) => {
+                if (param.time) {
+                    const priceData = param.seriesPrices.get(lineSeries);
+    
+                    // Display information about the current time
+                    infoBox.textContent = `Time: ${param.time}, Value: ${priceData}`;
+                    infoBox.style.visibility = 'visible';
+                } else {
+                    infoBox.textContent = 'Hover over the chart to see data...';
+                    infoBox.style.visibility = 'hidden';
+                }
             });
             // const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
             // newSeries1.setData([]);
@@ -92,7 +104,7 @@ export const ChartComponent = props => {
                     volumeSeries.setData(data.volume);
                 }
                 if(data?.line){
-                    for(let i = 0; i < data?.line; i++){
+                    for(let i = 0; i < data?.line.length; i++){
                         let newSeriesLine = chart.addLineSeries({ color: data?.line[i].color, lineWidth, priceLineVisible: false });      
                         newSeriesLine.setData(data?.line[i].data);
                     }
