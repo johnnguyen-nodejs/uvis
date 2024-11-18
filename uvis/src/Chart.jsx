@@ -72,6 +72,7 @@ export const ChartComponent = props => {
                     bottom: 0,
                 },
             });
+            volumeSeries.setData([]);
             // const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
             // newSeries1.setData([]);
             // const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth, priceLineVisible: false });      
