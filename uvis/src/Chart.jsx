@@ -83,8 +83,8 @@ export const ChartComponent = props => {
                     infoBox.style.visibility = 'hidden';
                 }
             });
-            // const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
-            // newSeries1.setData([]);
+            const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
+            newSeries1.setData([]);
             // const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth, priceLineVisible: false });      
             // newSeries2.setData([]);
             // const newSeries3 = chart.addLineSeries({ color: lineColor3, lineWidth, priceLineVisible: false });      
@@ -99,6 +99,9 @@ export const ChartComponent = props => {
                 let data = JSON.parse(event.data) 
                 if(data?.candle){
                     newSeries.setData(data.candle)
+                }
+                if(data?.line1){
+                    newSeries.update(data?.line1)
                 }
                 if(data?.volume){
                     volumeSeries.setData(data.volume);
