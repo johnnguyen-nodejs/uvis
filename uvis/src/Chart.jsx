@@ -38,6 +38,7 @@ export const ChartComponent = props => {
                 timeScale: {
                     timeVisible: true,        // Show time on the axis
                     secondsVisible: true,     // Include seconds in the time axis
+                    minBarSpacing: 0.05
                 },
                 grid: {
                     vertLines: {
@@ -79,8 +80,9 @@ export const ChartComponent = props => {
                     let str = []
                     param?.seriesData?.forEach(t => {
                         delete t.time
+                        delete t?.color
                         str.push(Object.entries(t)
-                        .map(([key, value]) => `${key}: ${value}`)
+                        .map(([key, value]) => `${key}: ${value.toFixed(2)}`)
                         .join(', '))
                     })
                     setLabels(str)
@@ -99,8 +101,7 @@ export const ChartComponent = props => {
             // newSeries4.setData([]);
             // const newSeries5 = chart.addLineSeries({ color: lineColor5, lineWidth, priceLineVisible: false });      
             // newSeries5.setData([]);
-            socket.close()
-            socket = new WebSocket('ws://localhost:8080');
+
             socket.addEventListener('message', (event) => {
                 let data = JSON.parse(event.data) 
                 if(data?.candle){
@@ -117,6 +118,14 @@ export const ChartComponent = props => {
                         let newSeriesLine = chart.addLineSeries({ color: data?.line[i].color, lineWidth, priceLineVisible: false });      
                         newSeriesLine.setData(data?.line[i].data);
                     }
+                }
+                if(data?.xline){
+                    setTimeout(() =>{
+                        for(let i = 0; i < data?.xline.length; i++){
+                            let newSeriesLine = chart.addLineSeries({ color: data?.xline[i].color, lineWidth, priceLineVisible: false });      
+                            newSeriesLine.setData(data?.line[i].data);
+                        }
+                    }, 10000)
                 }
                 if(data?.markers){
                     newSeries.setMarkers(data?.markers)
