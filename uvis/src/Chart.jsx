@@ -1,6 +1,6 @@
 
 import { createChart, ColorType } from 'lightweight-charts';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 let socket = new WebSocket('ws://localhost:8080');
 
 export const ChartComponent = props => {
@@ -20,11 +20,12 @@ export const ChartComponent = props => {
     } = props;
 
     const chartContainerRef = useRef();
+    const [labels, setLabels] = useState([])
 
     useEffect(
         () => {
             const handleResize = () => {
-                chart.applyOptions({ width: chartContainerRef.current.width, minBarSpacing: 0.5,});
+                chart.applyOptions({ width: chartContainerRef.current.width, minBarSpacing: 0.05,});
             };
 
             const chart = createChart(chartContainerRef.current, {
@@ -52,7 +53,7 @@ export const ChartComponent = props => {
             });
             chart.timeScale().fitContent();
 
-            const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350', priceLineVisible: false });
+            const newSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350', priceLineVisible: false, title: 'candle' });
             const volumeSeries = chart.addHistogramSeries({
                 color: '#26a69a',
                 priceFormat: {
@@ -64,6 +65,7 @@ export const ChartComponent = props => {
                     top: 0.8, // highest point of the series will be 70% away from the top
                     bottom: 0,
                 },
+                title: 'volume'
             });
             volumeSeries.priceScale().applyOptions({
                 scaleMargins: {
@@ -72,19 +74,23 @@ export const ChartComponent = props => {
                 },
             });
             chart.subscribeCrosshairMove((param) => {
-                if (param.time) {
-                    const priceData = param.seriesPrices.get(lineSeries);
-    
-                    // Display information about the current time
-                    infoBox.textContent = `Time: ${param.time}, Value: ${priceData}`;
-                    infoBox.style.visibility = 'visible';
+                // console.log(param)
+                if (param?.time) {
+                    let str = []
+                    param?.seriesData?.forEach(t => {
+                        delete t.time
+                        str.push(Object.entries(t)
+                        .map(([key, value]) => `${key}: ${value}`)
+                        .join(', '))
+                    })
+                    setLabels(str)
                 } else {
-                    infoBox.textContent = 'Hover over the chart to see data...';
-                    infoBox.style.visibility = 'hidden';
+                    setLabels([])
                 }
             });
             const newSeries1 = chart.addLineSeries({ color: lineColor1, lineWidth, priceLineVisible: false });      
             newSeries1.setData([]);
+            // newSeries.setData([]);
             // const newSeries2 = chart.addLineSeries({ color: lineColor2, lineWidth, priceLineVisible: false });      
             // newSeries2.setData([]);
             // const newSeries3 = chart.addLineSeries({ color: lineColor3, lineWidth, priceLineVisible: false });      
@@ -129,10 +135,28 @@ export const ChartComponent = props => {
     );
     
     return (
-        <div
-            style={{ height: "100vh"}}
-            ref={chartContainerRef}
-        />
+        <>
+            <div
+                style={{ height: "100vh"}}
+                ref={chartContainerRef}
+            />
+            <div style={{
+                    position: 'absolute',
+                    top: 10,
+                    left: 10,
+                    color: 'white',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                    zIndex: 1,
+                    width: '100%',
+                    textAlign: 'left'
+                }}>
+                    {labels.length > 0 && labels?.map((item, index) => (
+                        <div className='w-full text-sm' key={index}>{item}</div>
+                    ))}
+                </div>
+        </>
     );
 };
 
