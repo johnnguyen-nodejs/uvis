@@ -123,7 +123,7 @@ export const ChartComponent = props => {
                     for(let i = 0; i < data?.xline.length; i++) {
                         let newSeriesLine = chart.addLineSeries({ color: data?.xline[i].color, lineWidth, priceLineVisible: false });      
                         newSeriesLine.setData([]);
-                        for (let j = 0; j < data?.xline[i].data.length; index++) {
+                        for (let j = 0; j < data?.xline[i].data.length; j++) {
                             newSeriesLine.update(data?.xline[i].data[j])
                         }
                     }
