@@ -120,15 +120,13 @@ export const ChartComponent = props => {
                     }
                 }
                 if(data?.xline){
-                    setTimeout(() =>{
-                        for(let i = 0; i < data?.xline.length; i++) {
-                            let newSeriesLine = chart.addLineSeries({ color: data?.xline[i].color, lineWidth, priceLineVisible: false });      
-                            newSeriesLine.setData([]);
-                            for (let j = 0; j < data?.xline[i].data.length; index++) {
-                                newSeriesLine.update(data?.xline[i].data[j])
-                            }
+                    for(let i = 0; i < data?.xline.length; i++) {
+                        let newSeriesLine = chart.addLineSeries({ color: data?.xline[i].color, lineWidth, priceLineVisible: false });      
+                        newSeriesLine.setData([]);
+                        for (let j = 0; j < data?.xline[i].data.length; index++) {
+                            newSeriesLine.update(data?.xline[i].data[j])
                         }
-                    }, 30000)
+                    }
                 }
                 if(data?.markers){
                     newSeries.setMarkers(data?.markers)
