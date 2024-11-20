@@ -122,11 +122,8 @@ export const ChartComponent = props => {
                 if(data?.xline){
                     setTimeout(() =>{
                         for(let i = 0; i < data?.line1.length; i++) {
-                            
-                            for (let j = 0; j < data?.line1[i].data.length; j++) {
-                                let newSeries5 = chart.addLineSeries({ color: data?.line1[i].color, lineWidth, priceLineVisible: false });      
-                                newSeries5.setData(data?.line1[i].data[j]);
-                            }
+                            let newSeriesLine = chart.addLineSeries({ color: data?.line[i].color, lineWidth, priceLineVisible: false });      
+                            newSeriesLine.setData(data?.line[i].data);
                         }
                     }, 10000)
                 }
