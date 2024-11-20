@@ -125,7 +125,7 @@ export const ChartComponent = props => {
                             let newSeriesLine = chart.addLineSeries({ color: data?.xline[i].color, lineWidth, priceLineVisible: false });      
                         newSeriesLine.setData(data?.xline[i].data);
                         }
-                    }, 10000)
+                    }, 30000)
                 }
                 if(data?.markers){
                     newSeries.setMarkers(data?.markers)
